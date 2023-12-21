@@ -10,7 +10,7 @@ import * as directives  from 'vuetify/directives'
 
 //firebase 
 import { VueFire, VueFireAuth } from 'vuefire'
-import firebaseApp from './config/firebase'
+import { firebaseApp } from './config/firebase'
 
 import App from './App.vue'
 import router from './router'
