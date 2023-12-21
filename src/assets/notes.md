@@ -5,3 +5,6 @@ npm i vuetify
 # VeeValidate
 Es un plugin para Vue.js que nos permite validar formularios de una manera sencilla.
 npm i vee-validate
+# firebase 
+Es una plataforma de Google que nos permite crear aplicaciones web y móviles de forma rápida y sencilla.
+- npm i firebase vuefire
