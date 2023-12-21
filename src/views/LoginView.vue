@@ -34,9 +34,10 @@
       </v-card-subtitle>
 
       <v-alert
+         v-if="auth.hasError"
          type="error"
-         title="Bienvenido"
          class="my-5"
+         :title="auth.errorMsg"
       >
       </v-alert>
 
