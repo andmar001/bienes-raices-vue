@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { onAuthStateChanged } from 'firebase/auth'
+import { useFirebaseAuth } from 'vuefire' 
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -18,6 +20,7 @@ const router = createRouter({
       path:'/admin',
       name:'admin',
       component: () => import('../views/admin/AdminLayout.vue'),
+      meta:{ requiresAuth: true }, //Guard de navegación
       children: [
         {
           path: '/admin/propiedades',
@@ -38,5 +41,40 @@ const router = createRouter({
     }
   ]
 })
+
+//Guard de navegación
+router.beforeEach(async( to, from, next)=>{
+  //Comprobar si la ruta requiere autenticación
+  const requiresAuth = to.matched.some( url => url.meta.requiresAuth )
+  if (requiresAuth) {
+    //Comprobar que el usuario este autenticado
+    try {
+      await autenticateUser()
+      next()
+    } catch (error) {
+        console.log('error');
+        next({ name: 'login'})
+    }
+  } 
+  else{
+    //Si no requiere autenticación, se puede acceder a la ruta
+    next()
+  }
+})
+
+function autenticateUser(){
+  const auth = useFirebaseAuth()
+  return new Promise((resolve, reject) => {
+    const onSuscribe = onAuthStateChanged(auth, (user) => {
+      onSuscribe() //Dejar de escuchar el evento, para que no se quede escuchando
+      if (user) {
+        resolve(user)
+      }
+      else{
+        reject('Usuario no autenticado') //Si no hay usuario autenticado, se rechaza la promesa y va al catch por lo que lleva al login
+      }
+    })
+  });
+}
 
 export default router
