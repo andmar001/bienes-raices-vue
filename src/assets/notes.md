@@ -8,3 +8,6 @@ npm i vee-validate
 # firebase 
 Es una plataforma de Google que nos permite crear aplicaciones web y móviles de forma rápida y sencilla.
 - npm i firebase vuefire
+
+# iconos
+- npm i @mdi/font 

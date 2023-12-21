@@ -32,6 +32,14 @@
       <v-card-subtitle>
          Inicia sesion con tu cuenta
       </v-card-subtitle>
+
+      <v-alert
+         type="error"
+         title="Bienvenido"
+         class="my-5"
+      >
+      </v-alert>
+
       <v-form class="mt-5">
          <v-text-field
             type="email"
