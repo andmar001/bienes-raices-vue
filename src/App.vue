@@ -29,7 +29,7 @@
         <template v-slot:append>
           <div v-if="isAuth">
             <v-btn :to="{ name:'admin-propiedades' }" >Admin</v-btn>
-            <v-btn>Cerrar Sesion</v-btn>
+            <v-btn @click="authStore.logOut" >Cerrar Sesion</v-btn>
           </div>
           <div v-else>            
             <v-btn :to="{ name: 'home' }" text> Inicio </v-btn>
