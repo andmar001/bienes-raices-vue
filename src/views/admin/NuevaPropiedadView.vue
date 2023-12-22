@@ -1,6 +1,15 @@
 <script setup>
    import { useForm, useField } from 'vee-validate'
+   import { collection, addDoc } from 'firebase/firestore';
+   import { useFirestore } from 'vuefire';
+   import { useRouter } from 'vue-router';
+
    import { validationSchema, imageSchema } from '../../validation/propiedadSchema'
+
+   const items = [1, 2, 3, 4, 5]
+
+   const router = useRouter()
+   const db = useFirestore()
 
    const { handleSubmit } = useForm({
       // unir los dos esquemas de validacion
@@ -17,11 +26,19 @@
    const wc = useField('wc')
    const estacionamiento = useField('estacionamiento')
    const descripcion = useField('descripcion')
+   const alberca = useField('alberca',null,{ initialValue: false })
 
-   const items = [1, 2, 3, 4, 5]
 
-   const submit = handleSubmit(( values ) => {
-      console.log('Formulario enviado', values)
+   const submit = handleSubmit(async ( values ) => {
+      const { imagen, ...propiedad } = values   // extraer imagen de los valores
+
+      const docRef = await addDoc(collection(db, "propiedades"), {
+         ...propiedad 
+      });
+      if (docRef.id) {
+         router.push({ name: 'admin-propiedades' })
+      }
+
    })
 
 </script>
@@ -58,6 +75,8 @@
          <v-text-field
             class="mb-5"
             label="Precio"
+            v-model="precio.value.value"
+            :error-messages="precio.errorMessage.value"
          /> 
          <v-row>
             
@@ -99,7 +118,11 @@
             :error-messages="descripcion.errorMessage.value"   
          > </v-textarea>
 
-         <v-checkbox label="Alberca"/>
+         <v-checkbox 
+            label="Alberca"
+            v-model="alberca.value.value"
+            :error-messages="alberca.errorMessage.value"   
+         />
 
          <v-btn
             color="pink-accent-3"
