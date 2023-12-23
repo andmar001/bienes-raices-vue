@@ -1,4 +1,5 @@
 <script setup>
+   import { watch } from 'vue'  //para llenar formulario con datos de propiedad
    import { useRoute } from 'vue-router';
    import { useFirestore, useDocument } from 'vuefire';
    import { doc, updateDoc } from 'firebase/firestore';
@@ -37,8 +38,20 @@
    const docRef = doc(db, 'propiedades', route.params.id);
    const propiedad = useDocument(docRef);  // obtener la propiedad
 
+   //Llenar el formulario con los datos de la propiedad
+   watch(propiedad, ( propiedad )=>{
+      titulo.value.value = propiedad.titulo
+      precio.value.value = propiedad.precio
+      habitaciones.value.value = propiedad.habitaciones
+      wc.value.value = propiedad.wc
+      estacionamiento.value.value = propiedad.estacionamiento
+      descripcion.value.value = propiedad.descripcion
+      alberca.value.value = propiedad.alberca
+      center.value = propiedad.ubicacion
+   })
+
    const submit = handleSubmit( values =>{
-      
+
    })
 
 </script>
