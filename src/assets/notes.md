@@ -15,3 +15,7 @@ Es una plataforma de Google que nos permite crear aplicaciones web y móviles de
 # uid
 - npm i uid
 
+# leaflet
+Es una librería de JavaScript para crear mapas interactivos.
+https://www.npmjs.com/package/@vue-leaflet/vue-leaflet
+- npm i @vue-leaflet/vue-leaflet leaflet
