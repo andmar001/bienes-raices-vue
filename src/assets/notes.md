@@ -11,3 +11,7 @@ Es una plataforma de Google que nos permite crear aplicaciones web y móviles de
 
 # iconos
 - npm i @mdi/font 
+
+# uid
+- npm i uid
+
