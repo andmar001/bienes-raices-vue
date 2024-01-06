@@ -55,7 +55,14 @@
 
         const { imagen, ...propiedad } = values   //separar imagen de propiedad para no sobreescribir imagen
         if (image.value) {
-            console.log('Hay imagen')
+            // unir imagen con propiedad de ubicacion
+            const data = {
+                ...propiedad,
+                imagen: url.value,
+                ubicacion: center.value
+            }
+            //actualizar propiedad
+            await updateDoc(docRef, data)
         }
         else {
             // unir imagen con propiedad de ubicacion
