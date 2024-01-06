@@ -1,6 +1,6 @@
 <script setup>
    import { watch } from 'vue'  //para llenar formulario con datos de propiedad
-   import { useRoute } from 'vue-router';
+   import { useRoute, useRouter } from 'vue-router';
    import { useFirestore, useDocument } from 'vuefire';
    import { doc, updateDoc } from 'firebase/firestore';
    import { useField, useForm } from 'vee-validate'
@@ -32,6 +32,7 @@
    const alberca = useField('alberca')
 
    const route = useRoute();
+   const router = useRouter();
 
    //Obtener la propiedad a editar
    const db = useFirestore();
@@ -50,9 +51,23 @@
       center.value = propiedad.ubicacion
    })
 
-   const submit = handleSubmit( values =>{
+    const submit = handleSubmit(async values => {
 
-   })
+        const { imagen, ...propiedad } = values   //separar imagen de propiedad para no sobreescribir imagen
+        if (image.value) {
+            console.log('Hay imagen')
+        }
+        else {
+            // unir imagen con propiedad de ubicacion
+            const data = {
+                ...propiedad,
+                ubicacion: center.value
+            }
+            //actualizar propiedad
+            await updateDoc(docRef, data)
+        }
+        router.push({ name: 'admin-propiedades' })
+    })
 
 </script>
 
@@ -85,6 +100,16 @@
 
           <div class="my-5">
               <p class="font-weight-bold">Imagen Actual:</p>
+              <img 
+                v-if="image"
+                class="w-50"
+                :src="image"
+              >
+              <img 
+                v-else
+                class="w-50"
+                :src="propiedad?.imagen"
+              >
           </div>
 
 
